@@ -85,52 +85,83 @@ exports.likeDislikeSauce = (req, res, next) => {
    if (likeStatus === 1) {
       // Sauces.updateOne({ sauceId }, { $inc: { likes: +1 }, $push: { usersLiked: userId } })
       Sauces.findOne({ _id: sauceId })
-      .then((sauce) => {
-         const likes = sauce.likes +1
-         const usersLiked = sauce.usersLiked
-         console.log(likes) //////*
-         usersLiked.push(userId)
-         Sauces.updateOne({ _id: sauceId }, { likes, usersLiked })
-            .then((sauce) => {
-               console.log(sauce)
-               res.status(201).json({ message: ['Like has been increased'] });
-            })
-            .catch((error) => res.status(400).json(error));
-      })
+         .then((sauce) => {
+            const likes = sauce.likes + 1
+            const usersLiked = sauce.usersLiked
+            console.log(likes) //////*
+            usersLiked.push(userId)
+            Sauces.updateOne({ _id: sauceId }, { likes, usersLiked })
+               .then((sauce) => {
+                  console.log(sauce)
+                  res.status(201).json({ message: ['Like has been increased'] });
+               })
+               .catch((error) => res.status(400).json(error));
+         })
    }
 
    //* Gère l'annulation de like/dislike
    if (likeStatus === 0) {
-   //    Sauces.updateOne({ _id: req.params.id }, { $inc: { likes: -1 }, $pull: { usersLiked: userId } })
-   //       .then(() => {
-   //          return Sauces.updateOne(
-   //             { _id: req.params.id },
-   //             { $inc: { dislikes: +1 }, $pull: { usersDisliked: userId } }
-   //          );
-   //       })
-   //       .then(() => {
-   //          res.status(201).json({ message: ['Like has been canceled', 'Dislike has been canceled'] });
-   //       })
-   //       .catch((error) => res.status(400).json(error));
+      Sauces.findOne({ _id: sauceId })
+         .then((sauce) => {
+            const usersLiked = sauce.usersLiked
+            const usersDisliked = sauce.usersDisliked
+
+            if (usersLiked.length != 0) {
+               for (var i = 0; i < usersLiked.length; i++) {
+                  if (userId === usersLiked[i]) {
+                     console.log('Element Liked Found');
+                     const likes = sauce.likes - 1
+                     usersLiked.pull(userId)
+                     Sauces.updateOne({ _id: sauceId }, { likes, usersLiked })
+                        .then((sauce) => {
+                           console.log(sauce)
+                           res.status(201).json({ message: ['Like has been undo'] });
+                        })
+                        .catch((error) => res.status(400).json(error));
+                  } else {
+                     console.log('Element Liked not Found');
+                  }
+               }
+               console.log("a déjà like")
+
+            } else if (usersDisliked.length != 0) {
+               for (var i = 0; i < usersDisliked.length; i++) {
+                  if (userId === usersDisliked[i]) {
+                     console.log('Element Disliked Found');
+                     const dislikes = sauce.dislikes - 1
+                     usersDisliked.pull(userId)
+                     Sauces.updateOne({ _id: sauceId }, { dislikes, usersDisliked })
+                        .then((sauce) => {
+                           console.log(sauce)
+                           res.status(201).json({ message: ['Disliked has been undo'] });
+                        })
+                        .catch((error) => res.status(400).json(error));
+                  } else {
+                     console.log('Element Disliked not Found');
+                  }
+               }
+               console.log("a déjà dislike")
+
+            } else {
+               console.log("n'a pas encore like/dislike")
+            }
+         })
    }
 
    //* Gère le dislike
    if (likeStatus === -1) {
       Sauces.findOne({ _id: sauceId })
-      .then((sauce) => {
-         const dislikes = sauce.dislikes -1
-         const usersDisliked = sauce.usersDisliked
-         console.log(dislikes) //////*
-         usersDisliked.push(userId)
-         Sauces.updateOne({ _id: sauceId }, { dislikes, usersDisliked })
-            .then((sauce) => {
-               console.log(sauce)
-               res.status(201).json({ message: ['Dislike has been decreased'] });
-            })
-            .catch((error) => res.status(400).json(error));
-      })
+         .then((sauce) => {
+            const dislikes = sauce.dislikes + 1
+            const usersDisliked = sauce.usersDisliked
+            console.log(dislikes) //////*
+            usersDisliked.push(userId)
+            Sauces.updateOne({ _id: sauceId }, { dislikes, usersDisliked })
+               .then((sauce) => {
+                  console.log(sauce)
+                  res.status(201).json({ message: ['Dislike has been decreased'] });
+               })
+               .catch((error) => res.status(400).json(error));
+         })
    }
-
-
-
 }
