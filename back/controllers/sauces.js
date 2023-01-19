@@ -79,7 +79,7 @@ exports.likeDislikeSauce = (req, res, next) => {
    let likeStatus = req.body.like
    // let sauceId = req.params.id
 
-   console.log(req.body)
+   console.log(req.body) //////*
 
    //* Gère le like
    if (likeStatus === 1) {
@@ -87,11 +87,11 @@ exports.likeDislikeSauce = (req, res, next) => {
          .then((sauce) => {
             const likes = sauce.likes + 1
             const usersLiked = sauce.usersLiked
-            console.log(likes) //////*
+            // console.log(likes) //////*
             usersLiked.push(userId)
             Sauces.updateOne({ _id: req.params.id }, { likes, usersLiked })
                .then((sauce) => {
-                  console.log(sauce)
+                  // console.log(sauce) //////*
                   res.status(201).json({ message: ['Like has been increased'] });
                })
                .catch((error) => res.status(400).json(error));
@@ -107,31 +107,33 @@ exports.likeDislikeSauce = (req, res, next) => {
 
             //* Méthode #1
             if ((usersLiked.find(element => element === userId)) === userId) {
-               console.log('Element Liked Found');
+               console.log('Element Liked Found'); //////*
                const likes = sauce.likes - 1
                usersLiked.pull(userId)
                Sauces.updateOne({ _id: req.params.id }, { likes, usersLiked })
                   .then((sauce) => {
-                     console.log(sauce)
+                     // console.log(sauce) //////*
                      res.status(201).json({ message: ['Like has been undo'] });
                   })
                   .catch((error) => res.status(400).json(error));
-            } else {
-               console.log('Element Liked not Found');
-            }
+            } 
+            // else {
+            //    console.log('Element Liked not Found');
+            // }
 
-            if ((usersDisliked.find(element => element === userId)) === userId) {
-               console.log('Element Disliked Found');
+            // if ((usersDisliked.find(element => element === userId)) === userId) {
+            else if ((usersDisliked.find(element => element === userId)) === userId) {
+               console.log('Element Disliked Found'); //////*
                const dislikes = sauce.dislikes - 1
                usersDisliked.pull(userId)
                Sauces.updateOne({ _id: req.params.id }, { dislikes, usersDisliked })
                   .then((sauce) => {
-                     console.log(sauce)
+                     // console.log(sauce) //////*
                      res.status(201).json({ message: ['Disliked has been undo'] });
                   })
                   .catch((error) => res.status(400).json(error));
             } else {
-               console.log('Element Disliked not Found');
+               console.log('Element Liked or Disliked not Found');
             }
 
             //* Méthode #2
@@ -185,11 +187,11 @@ exports.likeDislikeSauce = (req, res, next) => {
          .then((sauce) => {
             const dislikes = sauce.dislikes + 1
             const usersDisliked = sauce.usersDisliked
-            console.log(dislikes) //////*
+            // console.log(dislikes) //////*
             usersDisliked.push(userId)
             Sauces.updateOne({ _id: req.params.id }, { dislikes, usersDisliked })
                .then((sauce) => {
-                  console.log(sauce)
+                  // console.log(sauce) //////*
                   res.status(201).json({ message: ['Dislike has been decreased'] });
                })
                .catch((error) => res.status(400).json(error));
