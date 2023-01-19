@@ -1,3 +1,10 @@
+# Exclude the content of images in back/images
+/back/images
+
+# Exclude 'env' in the "back" file
+/back/.env
+
+
 # Logs
 logs
 *.log
