@@ -116,13 +116,7 @@ exports.likeDislikeSauce = (req, res, next) => {
                      res.status(201).json({ message: ['Like has been undo'] });
                   })
                   .catch((error) => res.status(400).json(error));
-            } 
-            // else {
-            //    console.log('Element Liked not Found');
-            // }
-
-            // if ((usersDisliked.find(element => element === userId)) === userId) {
-            else if ((usersDisliked.find(element => element === userId)) === userId) {
+            } else if ((usersDisliked.find(element => element === userId)) === userId) {
                console.log('Element Disliked Found'); //////*
                const dislikes = sauce.dislikes - 1
                usersDisliked.pull(userId)
