@@ -1,1 +1,8 @@
 node_modules
+
+# Exclude the content of images in back/images
+# /images
+
+# Exclude 'env' in the "back" file
+# .env
+
