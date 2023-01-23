@@ -3,7 +3,6 @@ const app = express()
 const mongoose = require('mongoose')
 const helmet = require("helmet")
 require('dotenv').config()
-// const validator = require('validator') //////*
 
 const saucesRoutes = require('./routes/sauces')
 const userRoutes = require('./routes/user')
