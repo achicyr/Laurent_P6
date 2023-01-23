@@ -17,6 +17,7 @@ passwordSchema
 
 exports.signup = (req, res, next) => {
    if (!passwordSchema.validate(req.body.password)) {
+      //TODO ==> afficher un message d'erreur de MDP
       console.log("Le MDP n'est pas OK !") ////////////*
       console.log(passwordSchema.validate('req.body.password', { details: true })) ////////////*
       // console.log(`Le mot de passe n'est pas assez fort ! ${passwordSchema.validate('req.body.password', { list: true })}`)
