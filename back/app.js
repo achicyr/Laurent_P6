@@ -16,7 +16,8 @@ mongoose.connect('mongodb+srv://Laurent:coursoc@atlascluster.cyivgfr.mongodb.net
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 app.use(express.json())
-app.use(helmet())
+// app.use(helmet())
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
 
 //* CORS
 app.use((req, res, next) => {
