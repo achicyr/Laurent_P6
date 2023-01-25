@@ -22,8 +22,7 @@ exports.createSauces = (req, res, next) => {
 
 exports.modifySauces = (req, res, next) => {
    const saucesObject = req.file ? {
-      // ...JSON.parse(req.body.sauces),
-      ...req.body.sauces,
+      ...JSON.parse(req.body.sauce),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
    } : { ...req.body };
 
@@ -108,7 +107,7 @@ exports.likeDislikeSauce = (req, res, next) => {
 
             //* Méthode #1
             if ((usersLiked.find(element => element === userId)) === userId) {
-               console.log('Element Liked Found'); //////*
+               // console.log('Element Liked Found'); //////*
                const likes = sauce.likes - 1
                usersLiked.pull(userId)
                Sauces.updateOne({ _id: req.params.id }, { likes, usersLiked })
@@ -118,7 +117,7 @@ exports.likeDislikeSauce = (req, res, next) => {
                   })
                   .catch((error) => res.status(400).json(error));
             } else if ((usersDisliked.find(element => element === userId)) === userId) {
-               console.log('Element Disliked Found'); //////*
+               // console.log('Element Disliked Found'); //////*
                const dislikes = sauce.dislikes - 1
                usersDisliked.pull(userId)
                Sauces.updateOne({ _id: req.params.id }, { dislikes, usersDisliked })
