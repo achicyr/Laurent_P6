@@ -9,6 +9,7 @@ const userRoutes = require('./routes/user')
 const path = require('path')
 
 // mongoose.connect(process.env.MONGODB_CONNECT,
+mongoose.set("strictQuery", false);
 mongoose.connect('mongodb+srv://Laurent:coursoc@atlascluster.cyivgfr.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
@@ -16,11 +17,16 @@ mongoose.connect('mongodb+srv://Laurent:coursoc@atlascluster.cyivgfr.mongodb.net
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 app.use(express.json())
-app.use(helmet())
+// https://stackoverflow.com/questions/69243166/err-blocked-by-response-notsameorigin-cors-policy-javascript
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
+// app.use(helmet())
 
 //* CORS
 app.use((req, res, next) => {
+  // console.log(Object.keys(req))
+  console.log(req.url)
    res.setHeader('Access-Control-Allow-Origin', '*')
+   res.setHeader("Access-Control-Allow-Credentials", "true")
    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
    next()

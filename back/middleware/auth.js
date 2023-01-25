@@ -6,9 +6,9 @@ module.exports = (req, res, next) => {
       const idUser = req.body.userId //TODO ==> récupérer l'id de l'user dans la variable
       const token = req.headers.authorization.split(' ')[1]
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET')
-      console.log(idUser)
+      console.log(idUser,req.body)
       const userId = decodedToken.userId
-      if (idUser != userId) {
+      if (idUser && idUser != userId) {
          console.log("Accès refusé")
          return res.status(403).json({ message: "Accès refusé !" });
       }

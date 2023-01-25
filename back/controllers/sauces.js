@@ -22,7 +22,7 @@ exports.createSauces = (req, res, next) => {
 
 exports.modifySauces = (req, res, next) => {
    const saucesObject = req.file ? {
-      ...JSON.parse(req.body.sauces),
+      ...req.body.sauces,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
    } : { ...req.body };
 
