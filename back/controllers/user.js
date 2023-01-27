@@ -5,7 +5,7 @@ const User = require('../models/user')
 const passwordValidator = require("password-validator")
 const passwordSchema = new passwordValidator()
 
-// Schéma à respecter pour le mot de passe
+// Schéma du mot de passe
 passwordSchema
 .is().min(8)                                    // Minimum length 8
 .is().max(100)                                  // Maximum length 100
@@ -17,15 +17,9 @@ passwordSchema
 
 exports.signup = (req, res, next) => {
    if (!passwordSchema.validate(req.body.password)) {
-      //TODO ==> afficher un message d'erreur de MDP
-      console.log("Le MDP n'est pas OK !") ////////////*
-      console.log(passwordSchema.validate('req.body.password', { details: true })) ////////////*
-      // console.log(`Le mot de passe n'est pas assez fort ! ${passwordSchema.validate('req.body.password', { list: true })}`)
-      return res.status(400).json({ message: "Le mot de passe n'est pas assez fort !" + console.log(passwordSchema.validate('req.body.password', { details: true })) });
-      // return res.status(400).json({ message: "Le mot de passe n'est pas assez fort ! " });
-      // return res.status(400).json({ message: (`Le mot de passe n'est pas assez fort ! ${passwordSchema.validate('req.body.password', { list: true })}`) });
+      console.log("Le mot de passe n'est pas assez fort ! Vérifier : ")
+      console.log(passwordSchema.validate('req.body.password', { details: true }))
    } else {
-      console.log("Le MDP est OK") ////////////*
       bcrypt.hash(req.body.password, 10)
          .then(hash => {
             const user = new User({
@@ -55,8 +49,7 @@ exports.login = (req, res, next) => {
                   userId: user._id,
                   token: jwt.sign(
                      { userId: user._id },
-                     // process.env.TOKEN,
-                     'RANDOM_TOKEN_SECRET',
+                     process.env.TOKEN,
                      { expiresIn: '24h' }
                      )
                   });

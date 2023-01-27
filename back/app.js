@@ -8,15 +8,13 @@ const saucesRoutes = require('./routes/sauces')
 const userRoutes = require('./routes/user')
 const path = require('path')
 
-// mongoose.connect(process.env.MONGODB_CONNECT,
-mongoose.connect('mongodb+srv://Laurent:coursoc@atlascluster.cyivgfr.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGODB_CONNECT,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'))
 
 app.use(express.json())
-// app.use(helmet())
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
 
 //* CORS
