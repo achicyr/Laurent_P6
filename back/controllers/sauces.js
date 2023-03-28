@@ -5,6 +5,11 @@ const fs = require('fs');
 
 exports.createSauces = (req, res, next) => {
    // console.log("début de création d'une sauce") ////////*
+console.log("\n\n\n\n")
+console.log(req.body)
+console.log(req.body.sauce)
+console.log(req.body.sauces)
+console.log("\n\n\n\n")
    const saucesObject = JSON.parse(req.body.sauce);
    delete saucesObject._id;
    delete saucesObject._userId;
@@ -21,6 +26,11 @@ exports.createSauces = (req, res, next) => {
 }
 
 exports.modifySauces = (req, res, next) => {
+console.log("\n\n\n\n")
+console.log(req.body)
+console.log(req.body.sauce)
+console.log(req.body.sauces)
+console.log("\n\n\n\n")
    const saucesObject = req.file ? {
       ...req.body.sauces,
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
